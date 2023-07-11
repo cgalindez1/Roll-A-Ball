@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
 
   public void StartTimer()
     {
-        timing = false;
+        timing = true;
     }
     public void StopTimer()
     {
