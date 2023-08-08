@@ -6,34 +6,41 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
   
-    public float speed = 5.0f;
+    public float speed = 10.0f;
     private Rigidbody rb;
+    private int count;
     private int pickupCount;
     private Timer timer;
-    private bool gameOver=false;    
+    private bool gameOver=false;
+    GameObject resetPoint;
+    bool resetting = false;
+    Color originalColour; 
 
     [Header("UI")]
     public GameObject inGamePanel;
-    public GameObject winPanel; 
-    public TMP_Text scoreText;
+    public GameObject gameOverPanel; 
+    public TMP_Text countText;
     public TMP_Text timerText;
     public TMP_Text winTimeText;
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         rb = GetComponent<Rigidbody>();
         //Get the number of pickups in our scene
         pickupCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
         //Run the check pickups function
-        CheckPickups();
+        SetCountText();
         //Get the timer object
         timer = FindObjectOfType<Timer>();
         timer.StartTimer();
         //Turn on our in game panel
         inGamePanel.SetActive(true);
         //Turn off our win panel 
-        winPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        resetPoint = GameObject.Find("Reset Point");
+        originalColour = GetComponent<Renderer>().material.color;
     }
     private void Update()
     {
@@ -43,7 +50,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (gameOver == true)
+        if (resetting)
         {
             return;
         }
@@ -55,7 +62,33 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
         rb.AddForce(movement * speed);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+       if (collision.gameObject.CompareTag("Respawn"))
+        {
+            StartCoroutine(ResetPlayer());
+        }
+    }
 
+    public IEnumerator ResetPlayer ()
+    {
+        
+        resetting = true;
+        GetComponent<Renderer>().material.color = Color.black;
+        rb.velocity = Vector3.zero;
+        Vector3 startPos = transform.position;
+        float resetSpeed = 2f;
+        var i = 0.0f;
+        var rate = 1.0f / resetSpeed;
+        while (i<1.0f)
+        {
+            i += Time.deltaTime * rate;
+            transform.position = Vector3.Lerp(startPos, resetPoint.transform.position, i);
+            yield return null;
+        }
+        GetComponent<Renderer>().material.color = originalColour;
+        resetting = false;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Pick Up")
@@ -64,17 +97,20 @@ public class PlayerController : MonoBehaviour
             //Decroment the pickup count
             pickupCount-=1;
             //Run the check pickups function
-            CheckPickups();
+            SetCountText();
         }
     }
-    void CheckPickups()
+    void SetCountText()
     {
         //Display the amount of pickups left in our scene
-       
-        scoreText.text = "Pickup Left: " + pickupCount;
-        if (pickupCount == 0)
+
+        countText.text = "Count:" + count.ToString();
+        if (count >= pickupCount)
+
         {
-            WinGame();
+            gameOverPanel.SetActive(true);
+            winTimeText.text = "You Win"; 
+
         }
     }
     void WinGame()
@@ -84,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //Stop the timer 
         timer.StopTimer ();
        //Turn on our win panel
-       winPanel.SetActive(true);    
+       gameOverPanel.SetActive(true);    
       //turn off our game panel
       inGamePanel.SetActive (false);
         // Display the timer on the win time text
