@@ -6,7 +6,7 @@ public enum GameType { Normal,SpeedRun}
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
-    public GameType gametype;
+    public GameType gameType;
     private void Awake ()   
     {
         if (instance == null)
@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
     public void SetGameType (GameType _gametype)
 
     {
-        gametype = _gametype;
+        gameType = _gametype;
     }
     // To toggle between speedrun on or off 
     public void ToggleSpeedRun(bool _speedRun)
