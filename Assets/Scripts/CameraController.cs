@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CameraStyle {Fixed, Free}
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    private Vector3 offset; 
-    
+    public CameraStyle cameraStyle;
+    public Transform pivot;
+    public float rotationSpeed = 1f;
+
+
+    private Vector3 offset;
+    private Vector3 pivotOffset;
     
     void Start()
     {
