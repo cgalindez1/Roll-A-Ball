@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Particles : MonoBehaviour
 {
-    public GameObject particlePrefab; 
-
+    public GameObject particlePrefab;
     public void CreateParticles()
     {
         Instantiate(particlePrefab, transform.position, transform.rotation);
     }
-
+    // Start is called before the first frame update
     void Start()
     {
         
