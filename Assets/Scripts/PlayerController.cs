@@ -26,9 +26,8 @@ public class PlayerController : MonoBehaviour
     //Controllers 
     SoundController soundController;
     GameController gameController;
-    CameraController cameraController;
     
-
+  
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +53,7 @@ public class PlayerController : MonoBehaviour
         if (gameController .gameType == GameType.SpeedRun)
             StartCoroutine(timer.StartCountdown()); 
         soundController = FindObjectOfType<SoundController>();
-        cameraController = FindObjectOfType<CameraController>();
+       
 
     }
     private void Update()
@@ -78,13 +77,8 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
-        if (cameraController.cameraStyle == CameraStyle.Free)
-        {
-            //rotates the player to the direction of the camera
-            transform.eulerAngles = Camera.main.transform.eulerAngles;
-            //translates the input vectors into coordinates
-            movement = transform. TransformDirection (movement);
-        }
+       
+       
         rb.AddForce(movement * speed);
     }
     private void OnCollisionEnter(Collision collision)
