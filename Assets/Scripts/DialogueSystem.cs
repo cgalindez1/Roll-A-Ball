@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Dialogue : MonoBehaviour
 {
+    [SerializeField] private DialogueContainer dailogueContainer = new DialogueContainer();
+
     // Start is called before the first frame update
     void Start()
     {

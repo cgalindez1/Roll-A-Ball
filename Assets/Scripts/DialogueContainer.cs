@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using TMPro;
-
+[System.Serializable]
 public class DialogueContainer
 {
-    public GameObject Root;
+    public GameObject root;
     public TMP_Text nameText;
+    public TMP_Text dialogueText;
 }

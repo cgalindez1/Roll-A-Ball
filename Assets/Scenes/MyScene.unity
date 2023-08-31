@@ -5111,8 +5111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95e0cca090242047a4ee77846dcf7ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupSound: {fileID: 0}
-  winSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 418ab97006860ad45851cc36788ffb58, type: 3}
+  winSound: {fileID: 8300000, guid: 3670ac70f6a8df14f9faccb57635ae53, type: 3}
 --- !u!4 &1370053441
 Transform:
   m_ObjectHideFlags: 0

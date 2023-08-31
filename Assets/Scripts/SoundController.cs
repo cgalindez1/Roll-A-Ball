@@ -6,6 +6,7 @@ public class SoundController : MonoBehaviour
 {
     public AudioClip pickupSound;
     public AudioClip winSound;
+  
 
     AudioSource audioSource;
 
